@@ -22,12 +22,15 @@ class main:
         try:
             play_img = Image.open("cat_start_icon.png").resize((48, 48), Image.Resampling.LANCZOS)
             pause_img = Image.open("cat_stop_icon.png").resize((48, 48), Image.Resampling.LANCZOS)
+            reset_img = Image.open("cat_reset_icon.png").resize((48, 48), Image.Resampling.LANCZOS)
             self.play_photo = ImageTk.PhotoImage(play_img)
             self.pause_photo = ImageTk.PhotoImage(pause_img)
+            self.reset_photo = ImageTk.PhotoImage(reset_img)
         except Exception as e:
             print(f"Error loading icons: {e}")
             self.play_photo = None
             self.pause_photo = None
+            self.reset_photo = None
 
         self.create_widgets()
         self.root.mainloop()
@@ -54,7 +57,11 @@ class main:
             self.button_toggle.config(text="Start", font=("Helvetica", 24))
         self.button_toggle.pack(side="left", padx=5)
 
-        self.button_reset = tk.Button(button_area, text="Reset", font=("Helvetica", 24), command=self.reset_timer)
+        self.button_reset = tk.Button(button_area, command=self.reset_timer, borderwidth=0, bg="#8a9a5b", activebackground="#8a9a5b")
+        if self.reset_photo:
+            self.button_reset.config(image=self.reset_photo)
+        else:
+            self.button_reset.config(text="Reset", font=("Helvetica", 24))
         self.button_reset.pack(side="left", padx=2)
 
         # initial time buttons
