@@ -1,12 +1,30 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+from typing import Optional, Any # 型ヒントの為追加
 
 
 
 
 class main:
-    def __init__(self, root):
+
+    root: tk.Tk
+    remaining_seconds: int
+    is_running: bool
+    after_id: Optional[int]
+    alarm_window: Optional[tk.Toplevel]
+    play_photo: Optional[ImageTk.PhotoImage]
+    pause_photo: Optional[ImageTk.PhotoImage]
+    reset_photo: Optional[ImageTk.PhotoImage]
+    count_down_time: tk.StringVar
+    label_time: tk.Label
+    button_toggle: tk.Button
+    button_reset: tk.Button
+    initial_upmin: tk.Button
+    initial_5min: tk.Button
+    initial_downmin: tk.Button
+
+    def __init__(self, root: tk.Tk) -> None:
         self.root = root
         self.root.title("Timer")
         # self.root.geometry("400x200")
@@ -35,7 +53,7 @@ class main:
         self.create_widgets()
         self.root.mainloop()
 
-    def create_widgets(self):
+    def create_widgets(self) -> None:
         
         # display time
         label_area = tk.Frame(self.root, bg="#8a9a5b")
@@ -75,28 +93,28 @@ class main:
         self.initial_downmin = tk.Button(initial_area, text="+", font=("Helvetica", 24), command=lambda: self.adjust_time(60))
         self.initial_downmin.pack(side="left")
 
-    def update_display(self):
+    def update_display(self) -> None:
         h = self.remaining_seconds // 3600
         m = (self.remaining_seconds % 3600) // 60
         s = self.remaining_seconds % 60
         self.count_down_time.set(f"{h:02d}:{m:02d}:{s:02d}")
 
-    def adjust_time(self, delta):
+    def adjust_time(self, delta: int) -> None:
         self.remaining_seconds = max(0, self.remaining_seconds + delta)
         self.update_display()
 
-    def set_time(self, seconds):
+    def set_time(self, seconds: int) -> None:
         self.remaining_seconds = seconds
         self.update_display()
 
-    def toggle_timer(self):
+    def toggle_timer(self) -> None:
         if self.is_running:
             self.stop_timer()
         else:
             if self.remaining_seconds > 0:
                 self.start_timer()
 
-    def start_timer(self):
+    def start_timer(self) -> None:
         if not self.is_running and self.remaining_seconds > 0:
             self.is_running = True
             if self.pause_photo:
@@ -105,7 +123,7 @@ class main:
                 self.button_toggle.config(text="Stop")
             self.tick()
 
-    def stop_timer(self):
+    def stop_timer(self) -> None:
         self.is_running = False
         if self.after_id:
             self.root.after_cancel(self.after_id)
@@ -115,7 +133,7 @@ class main:
         else:
             self.button_toggle.config(text="Start")
 
-    def reset_timer(self):
+    def reset_timer(self) -> None:
         self.stop_timer()
         self.remaining_seconds = 0
         self.update_display()
@@ -123,7 +141,7 @@ class main:
             self.alarm_window.destroy()
             self.alarm_window = None
 
-    def tick(self):
+    def tick(self) -> None:
         if self.is_running and self.remaining_seconds > 0:
             self.remaining_seconds -= 1
             self.update_display()
@@ -133,7 +151,7 @@ class main:
             else:
                 self.after_id = self.root.after(1000, self.tick)
 
-    def trigger_alarm(self):
+    def trigger_alarm(self) -> None:
         if self.alarm_window:
             return
         
@@ -159,7 +177,7 @@ class main:
 
 if __name__ == "__main__":
     
-    root = tk.Tk()
+    root: tk.Tk = tk.Tk()
 
-    window = main(root)
+    window: main = main(root)
 
