@@ -13,6 +13,7 @@ class main:
     is_running: bool
     after_id: Optional[str]
     alarm_window: Optional[tk.Toplevel]
+    photo: Optional[ImageTk.PhotoImage]
     play_photo: Optional[ImageTk.PhotoImage]
     pause_photo: Optional[ImageTk.PhotoImage]
     reset_photo: Optional[ImageTk.PhotoImage]
@@ -35,6 +36,7 @@ class main:
         self.is_running = False
         self.after_id = None
         self.alarm_window = None
+        self.photo = None
         
         # Load toggle icons
         try:
