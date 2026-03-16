@@ -11,7 +11,7 @@ class main:
     root: tk.Tk
     remaining_seconds: int
     is_running: bool
-    after_id: Optional[int]
+    after_id: Optional[str]
     alarm_window: Optional[tk.Toplevel]
     play_photo: Optional[ImageTk.PhotoImage]
     pause_photo: Optional[ImageTk.PhotoImage]
